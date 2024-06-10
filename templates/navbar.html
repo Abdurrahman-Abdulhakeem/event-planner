@@ -25,7 +25,7 @@
       />
       {% if request.user.is_authenticated %}
       <img
-        src= "http://127.0.0.1:8000/media/{{request.user.image}}"
+        src= {{request.user.image.url}}
         class="header__user__logo"
         alt=""
       />

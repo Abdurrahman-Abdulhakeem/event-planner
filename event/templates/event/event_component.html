@@ -5,7 +5,7 @@
       <a href="{{ event.user.get_absolute_url }}" class="flex justify__start">
         <img
           class="sm"
-          src="http://127.0.0.1:8000/media/{{event.user.image}}"
+          src={{event.user.image.url}}
           alt=""
         />
         <p class="p__link">Host @{{event.user}}</p>
@@ -35,7 +35,7 @@
 
     <span class="gap">
       {% for member in event.members.all|slice:":5" %}
-      <a href="{% url 'profile' member.username member.id %}"><img class="sm" src="http://127.0.0.1:8000/media/{{member.image}}" alt="" /></a>
+      <a href="{% url 'profile' member.username member.id %}"><img class="sm" src={{member.image.url}} alt="" /></a>
       {% endfor %}
     </span>
   </div>

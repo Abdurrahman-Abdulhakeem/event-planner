@@ -16,7 +16,7 @@
         <section class="events__section">
           <div class="flex align__up center">
             <div>
-              <img src="http://127.0.0.1:8000/media/{{user.image}}" class="md" alt="" />
+              <img src={{user.image.url}} class="md" alt="" />
               <p>{{user.full_name}}</p>
               <p><span class="p__link">@{{user.username}}</span> {{ user.followers.count }} Followers  {{ user.following.count }} Following</p>
 

@@ -35,7 +35,7 @@
                 <p class="light__color">HOSTED BY</p>
 
                 <a href="{{event.user.get_absolute_url}}" class="flex justify__start">
-                  <img class="sm" src="http://127.0.0.1:8000/media/{{event.user.image}}" alt="" />
+                  <img class="sm" src={{event.user.image.url}} alt="" />
                   <p class="p__link">@{{event.user}}</p>
                 </a>
               </div>
@@ -59,7 +59,7 @@
 
                   <span  class="flex justify__start">
                   <a href="{{event_msg.user.get_absolute_url}}" class="flex justify__start">
-                    <img class="sm" src="http://127.0.0.1:8000/media/{{event_msg.user.image}}" alt="" />
+                    <img class="sm" src={{event_msg.user.image.url}} alt="" />
                     <p class="p__link">@{{event_msg.user}}</p>
                 
                   </a>
@@ -99,7 +99,7 @@
                 {% for event_member in event.members.all %}
                 <div class="event__members">
                   <div class="flex justify__start align__up host__content">
-                    <img class="sm" src="http://127.0.0.1:8000/media/{{event_member.image}}" alt="" />
+                    <img class="sm" src={{event_member.image.url}} alt="" />
     
                     <span>
                         <small class="">{{event_member.full_name}}</small><br />

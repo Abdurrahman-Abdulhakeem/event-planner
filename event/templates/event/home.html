@@ -63,7 +63,7 @@
           <a href="{{ host.get_absolute_url }}" class="flex justify__start">
             <img
               class="md"
-              src="http://127.0.0.1:8000/media/{{host.image}}"
+              src={{host.image.url}}
               alt=""
             />
             <h4>{{ host.full_name }}</h4>
