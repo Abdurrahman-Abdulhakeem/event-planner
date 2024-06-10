@@ -1,0 +1,117 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block content %} 
+
+    <main class="grid__container">
+      <div class="container grid__box__two">
+        <section class="event__chat__container">
+          <div class="hosts">
+
+            <div class="flex edit__section">
+            <h3>
+              <a href="{% url 'home' %}" class="space arrow">&LeftArrow;</a>{{ event.name }}
+            </h3>
+
+            {% if request.user == event.user %}
+              <div class="edit__event" id="edit-event">
+                <div class="edit__menu"></div>
+                <div class="edit__menu"></div>
+                <div class="edit__menu"></div>
+                <ul class="inner__list">
+                  <li><a href="{{ event.get_edit_url }}">Edit</a></li>
+                  <li><a href="{{ event.get_delete_url }}">Delete</a></li>
+                </ul>
+              </div>
+              {% endif %}
+          </div>
+
+  
+
+            <div class="flex host__content align__up event">
+              <div class="event__detail">
+                <h1 class="p__link">{{ event.name }}</h1>
+                <p>{{event.created | timesince }} ago</p>
+                <p class="light__color">HOSTED BY</p>
+
+                <a href="{{event.user.get_absolute_url}}" class="flex justify__start">
+                  <img class="sm" src="http://127.0.0.1:8000/media/{{event.user.image}}" alt="" />
+                  <p class="p__link">@{{event.user}}</p>
+                </a>
+              </div>
+
+              <form action="">
+                {% if request.user in event.members.all %}
+                <a class="btn-secondary two" href="{% url 'leave-event' event.id %}">Leave</a>
+                {% else %}
+                <a class="btn-secondary two" href="{% url 'join-event' event.id %}">Join</a>
+                {% endif %}
+              </form>
+            </div>
+
+            <p style="max-width:600px">{{event.description}}</p>
+            <div class="event__chat">
+              <div class="event__chat__content">
+
+
+                {% for event_msg in event_msgs %}
+                <div class="message__container">
+
+                  <span  class="flex justify__start">
+                  <a href="{{event_msg.user.get_absolute_url}}" class="flex justify__start">
+                    <img class="sm" src="http://127.0.0.1:8000/media/{{event_msg.user.image}}" alt="" />
+                    <p class="p__link">@{{event_msg.user}}</p>
+                
+                  </a>
+                  <p>{{event_msg.created | timesince }} ago</p>
+                  {% if event_msg.user == request.user %}
+                  <p><a href="{{ event_msg.get_delete_url }}">&times;</a></p>
+                  {% endif %}
+                </span>
+                  
+                  <p class="msg">{{ event_msg.body }}</p>
+                  
+                </div>
+                {% endfor %}
+
+              
+              </div>
+
+              {% if request.user in event.members.all %}
+              <form class="message__input" method="post">
+                {% csrf_token %}
+                <input
+                  type="text"
+                  name="body"
+                  placeholder="Write your message here..."
+                />
+              </form>
+              {% endif %}
+            </div>
+          </div>
+        </section>
+
+        <section class="members">
+
+            <div class="hosts">
+                <h3>MEMBERS <span class="p__link">({{event.members.count}} Joined)</span></h3>
+    
+                {% for event_member in event.members.all %}
+                <div class="event__members">
+                  <div class="flex justify__start align__up host__content">
+                    <img class="sm" src="http://127.0.0.1:8000/media/{{event_member.image}}" alt="" />
+    
+                    <span>
+                        <small class="">{{event_member.full_name}}</small><br />
+                      <a href="{{event_member.get_absolute_url}}" class="p__link"> @{{event_member.username}} </a>
+                     
+                </div>
+                {% endfor %}
+             
+              </div>
+
+        </section>
+      </div>
+    </main>
+
+  {% endblock %}

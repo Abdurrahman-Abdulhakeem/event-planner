@@ -1,0 +1,61 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block content %} 
+
+
+    <main class="grid__container">
+      <div class="container flex__grid">
+        <section class="event__chat__container">
+          <div class="hosts">
+            <h3>
+              <a href="{{ request.META.HTTP_REFERER }}" class="space arrow"
+                ><span> &LeftArrow;</span>
+              </a>
+              Create | Edit Event
+            </h3>
+
+            <div class="host__content del">
+              <form action="" method="post">
+                {% csrf_token %}
+                  <div class="form__field">
+                    <label for="event__topic">Topic</label>
+                    <input
+                      type="text"
+                      name="event__topic"
+                      placeholder="Enter topic.."
+                      list="topic__list"
+                      {% if event.topic.name %}
+                      value= {{ event.topic.name }}
+                      
+                      {% endif %}
+                    />
+                    <datalist id="topic__list">
+                      <select name="" id="event__topic">
+                        {% for topic in topics %}
+                        <option value={{ topic.name }}>{{ topic.name }}</option>
+                        {% endfor %}
+                        
+                      </select>
+                    </datalist>
+                  </div>
+                  <div class="form__field">
+                    <label for="event__name">Event Name</label>
+                    {{ form.name }}
+                  </div>
+
+                  <div class="form__field">
+                    <label for="event__description">Description</label>
+                    {{ form.description }}
+                  </div>
+
+                  <input type="submit" class="btn" value="Submit" />
+                </form>
+      
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    {% endblock %}

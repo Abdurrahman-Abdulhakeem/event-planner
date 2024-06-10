@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<a href="{{request.META.HTTP_REFERER}}">back</a>
+
+<section>
+    <h3>{{ event.name }}</h3>
+    <small>{{event.created | timesince }} ago</small>
+    <p>HOSTED BY</p>
+    <a href="">@ {{event.user}}</a> <br> <br> <hr>
+    {% if request.user in event.members.all %}
+    <a href="{% url 'leave-event' event.id %}">Leave</a>
+    {% else %}
+
+    <a href="{% url 'join-event' event.id %}">Join</a>
+    {% endif %}
+    
+
+    <div>
+        {% for event_msg in event_msgs %}
+       
+        <a href="">@ {{event_msg.user}}</a>
+        <small>{{event_msg.created | timesince }} ago</small>
+        <p>{{ event_msg.body }}</p> <a href="{{ event_msg.get_delete_url }}">delete</a> <br>
+        {% endfor %}
+
+        {% comment %} create msg {% endcomment %}
+        {% if request.user in event.members.all %}
+        <form method="post">
+            {% csrf_token %}
+        
+            <input type="text" name="body" placeholder="chat here...">
+        
+    
+        </form>
+        {% endif %} 
+    </div>
+
+    <div>
+        <h3>Members ({{event.members.count}} joined)</h3>
+
+        {% for event_member in event.members.all %}
+            <p>{{event_member.username}}</p>
+        {% endfor %}
+    </div>
+
+</section>
+
+
+
+
+
+{% endblock content %}

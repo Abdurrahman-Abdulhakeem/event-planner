@@ -1,0 +1,31 @@
+{% for msg in msgs %}
+
+<div class="content__container">
+  <div class="flex justify__start align__up host__content">
+    <img
+      class="sm"
+      src="http://127.0.0.1:8000/media/{{msg.user.image}}"
+      alt=""
+    />
+
+    <span>
+      <a href="{{msg.user.get_absolute_url}}" class="p__link"> @{{msg.user}} </a><br />
+      <small class="light__color"
+        >{{msg.created | timesince }} ago</small
+      >
+      <p>
+        replied to
+        <a href="{% url 'event-detail' msg.event.id %}" class="p__link">
+          "{{msg.event}}"</a
+        >
+      </p>
+    </span>
+    {% if request.user == msg.user %} 
+    <p style="font-size:large"><a href="{{ msg.get_delete_url }}"> &times;</a></p>
+    
+    {% endif %}
+  </div>
+
+  <div class="detail">{{msg.body | truncatechars:50}}</div>
+</div>
+{% endfor %}

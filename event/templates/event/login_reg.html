@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if page == 'login' %}
+<main class="grid__container">
+    <div class="container flex__grid">
+      <section class="event__chat__container">
+        <div class="hosts">
+          <h3>
+            <a href="{{request.META.HTTP_REFERER}}" class="space arrow"
+              ><span> &LeftArrow;</span>
+            </a>
+            Login
+          </h3>
+
+          <div class="host__content del">
+                {% if error %}
+                <small class="error__msg">
+                  {{error.message}}
+                </small>
+                {% endif %}
+          
+              <form method="post">
+                {% csrf_token %}
+                <div class="form__field">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email address.."
+                  />
+                </div>
+                <div class="form__field">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password.."
+                  />
+                </div>
+
+                <input type="submit" class="btn" value="Login" />
+              </form>
+              <p>Don't have an account yet? <a href="{% url 'register' %}" class="p__link">Register</a></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  {% else %}
+
+  <main class="grid__container">
+    <div class="container flex__grid">
+      <section class="event__chat__container">
+        <div class="hosts">
+          <h3>
+            <a href="{{request.META.HTTP_REFERER}}" class="space arrow"
+              ><span> &LeftArrow;</span>
+            </a>
+            Register
+          </h3>
+
+          <div class="host__content del">
+          
+              <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form__field">
+                  <label for={{field.label}}>{{field.label}}</label>
+                    {{ field }}
+
+                    {% if field.errors %}
+                      <div class="error__msg">
+                        <small>{{ field.errors | join:" " }}</small>
+                      </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <input type="submit" class="btn" value="Register" />
+              </form>
+       
+              <p>Already have an account? <a href="{% url 'login' %}" class="p__link">Login</a></p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+
+
+  {% endif %}
+{% endblock content %}

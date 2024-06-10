@@ -1,0 +1,96 @@
+{% extends "base.html" %} 
+{% load static %} 
+
+{% block content %} 
+
+<main class="grid__container">
+  <div class="container grid__box">
+    <section class="browse__events">
+
+     {% include "event/topics_component.html" %}
+
+      <span class="flex event justify__start">
+        <h3><a href="{% url 'topics' %}" class="p__link">More</a></h3>
+        <p><a href="" class="p__link">&DownArrow;</a></p>
+      </span>
+    </section>
+
+    <section class="events__section">
+      <!-- Small screen events and activities starts -->
+      <div class="small__screen__browse flex center">
+        <span>
+          <a href="{% url 'topics' %}" class="btn-secondary two">Browse Topics</a
+          ><a href="{% url 'activities' %}" class="btn-secondary two"
+            >Recent Activities</a
+          >
+          <form class="search__bar small">
+            <input
+              type="text"
+              name="q"
+              id="search"
+              placeholder="Search for events"
+            />
+          </form>
+        </span>
+      </div>
+      <!-- Small screen events and activities ends -->
+      <div class="flex align__up">
+        <div>
+          <h3>EVENTS</h3>
+          {% if event_count > 0 %}
+          <p class="p__color">{{event_count }} Events available</p>
+          {% else %}
+          <p class="p__color">No Event available</p>
+          {% endif %}
+        </div>
+
+        <div class="event__btn flex justify__start">
+          <span class="plus">&plus;</span>
+          <a href="{% url 'create-event' %}" class="btn">Create Event</a>
+        </div>
+      </div>
+
+      <p ><a href="{% url 'home' %}" class="p__link">All Events</a> </p>
+    {% include "event/event_component.html" %}
+    </section>
+
+    <section class="activities">
+      <div class="hosts">
+        <h3>TOP HOSTS</h3>
+        {% for host in top_hosts %}
+        {% if host.event_count > 0 %}
+        <div class="flex host__content">
+          <a href="{{ host.get_absolute_url }}" class="flex justify__start">
+            <img
+              class="md"
+              src="http://127.0.0.1:8000/media/{{host.image}}"
+              alt=""
+            />
+            <h4>{{ host.full_name }}</h4>
+          </a>
+          {% if request.user != host %}
+          {% if request.user in host.followers.all %}
+          <a href="{% url 'unfollow-user' host.id %}"><button class="btn-secondary">following</button></a>
+          {% else %}
+          <a href="{% url 'follow-user' host.id %}"><button class="btn-secondary">follow</button></a>
+          {% endif %}
+          {% endif %}
+          {% comment %} <button class="btn-secondary">{{ host.event_count }} events</button> {% endcomment %}
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if msgs %}
+      <div class="hosts">
+        <h3>RECENT ACTIVITIES</h3>
+
+      {% include "event/activities_component.html" %}
+      </div>
+      {% endif %}
+
+    </section>
+  </div>
+</main>
+
+{% endblock %}

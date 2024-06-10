@@ -1,0 +1,68 @@
+{% load static %}
+
+<header>
+  <div class="container flex">
+    <div class="logo flex">
+      <h2><a href="{%url 'home' %}"> Eventify</a></h2>
+
+      <form class="search__bar" action="{%url 'home' %}">
+        <input
+          type="text"
+          name="q"
+          id="search"
+          placeholder="Search for events"
+        />
+      </form>
+    </div>
+
+    <div class="user__login flex justify__start">
+      <img
+        id="toggleTheme"
+        role="button"
+        src="{% static 'images/light-theme-icon.svg' %}"
+        class="theme"
+        alt=""
+      />
+      {% if request.user.is_authenticated %}
+      <img
+        src= "http://127.0.0.1:8000/media/{{request.user.image}}"
+        class="header__user__logo"
+        alt=""
+      />
+      {% endif %}
+      <span class="auth">
+        {% if request.user.is_authenticated %}
+
+        <a href="profile.html" class="flex" id="show-drop-down">
+          <span>{{request.user.username}}</span
+          ><img
+            src="{% static 'images/arrow-down-dk.svg' %}"
+            class="theme"
+            alt=""
+            id="dark-arrow"
+        /></a>
+        <ul class="inner__list">
+          <li><a href="{% url 'settings' %}">Settings</a></li>
+          <li><a href="{{ request.user.get_absolute_url }}">Profile</a></li>
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+
+        {% else %}
+
+        <a href="{% url 'login' %}" class="flex" id="show-drop-down">
+          <span>Login</span>
+          <img
+            src="{% static 'images/arrow-down-dk.svg' %}"
+            class="theme"
+            alt=""
+            id="dark-arrow"
+          />
+        </a>
+        <ul class="inner__list">
+          <li><a href="{% url 'register' %}">Register</a></li>
+        </ul>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+</header>

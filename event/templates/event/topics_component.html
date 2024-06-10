@@ -1,0 +1,16 @@
+
+
+ <h3 class="topics__title">BROWSE TOPICS</h3>
+      <span class="flex event">
+        <h3><a href="{% url 'home' %}">All</a></h3>
+        <h3 class="event__number">{{ topics.count }}</h3>
+      </span>
+      {% for topic in topics %}
+
+      <span class="flex event">
+        <h3>
+          <a href="{% url 'home' %}?q={{topic.name}}"> {{ topic.name}} </a>
+        </h3>
+        <h3 class="event__number">{{topic.event_count}}</h3>
+      </span>
+      {% endfor %}

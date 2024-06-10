@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <main class="grid__container">
+      <div class="container flex__grid">
+        <section class="event__chat__container">
+          <div class="hosts">
+            <h3>
+              <a href="{{request.META.HTTP_REFERER}}" class="space arrow"
+                ><span> &LeftArrow;</span>
+              </a>
+              Browse Topics
+            </h3>
+
+            <div class="host__content del">
+              <form class="search__bar small browse">
+                <input
+                  type="text"
+                  name="q"
+                  id="search"
+                  placeholder="Search for topics"
+                />
+              </form>
+
+              <section class="browse__events show">
+                <span>
+                  <a href="{% url 'home' %}" class="flex event"
+                    ><h4>All</h4>
+                    <h4 class="event__number">{{ topics.count }}</h4></a
+                  >
+                </span>
+               
+
+
+                {% for topic in topics %}
+
+                <span>
+                 
+                    <a href="{% url 'home' %}?q={{topic.name}}" class="flex event">  <h4>{{ topic.name}}</h4>
+                      <h4 class="event__number">{{topic.event_count}}</h4>
+
+                       </a>
+                  
+                </span>
+                {% endfor %}
+              </section>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <main class="grid__container">
+      <div class="container flex__grid">
+        <section class="event__chat__container">
+          <div class="hosts">
+            <h3>
+              <a href="{{request.META.HTTP_REFERER}}" class="space arrow"
+                ><span> &LeftArrow;</span>
+              </a>
+              Recent Activities
+            </h3>
+
+            <div class="host__content del">
+
+        
+                  {% include "event/activities_component.html" %}
+          </div>
+          
+        </section>
+      </div>
+    </main>
+
+    {% endblock %}

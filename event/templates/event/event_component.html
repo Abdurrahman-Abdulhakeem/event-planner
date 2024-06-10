@@ -1,0 +1,48 @@
+{% for event in events %}
+<div class="event__card">
+  <div>
+    <span class="flex">
+      <a href="{{ event.user.get_absolute_url }}" class="flex justify__start">
+        <img
+          class="sm"
+          src="http://127.0.0.1:8000/media/{{event.user.image}}"
+          alt=""
+        />
+        <p class="p__link">Host @{{event.user}}</p>
+      </a>
+
+      <div class="flex justify__start">
+        <span>{{event.created | timesince }} ago</span>
+        {% if request.user == event.user %}
+        <div class="edit__event" id="edit-event">
+          <div class="edit__menu"></div>
+          <div class="edit__menu"></div>
+          <div class="edit__menu"></div>
+          <ul class="inner__list">
+            <li><a href="{{ event.get_edit_url }}">Edit</a></li>
+            <li><a href="{{ event.get_delete_url }}">Delete</a></li>
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+    </span>
+  </div>
+
+  <div class="title__section">
+    <h2 class="event__title">
+      <a href="{{ event.get_absolute_url }}"> {{ event.name}} </a>
+    </h2>
+
+    <span class="gap">
+      {% for member in event.members.all|slice:":5" %}
+      <a href="{% url 'profile' member.username member.id %}"><img class="sm" src="http://127.0.0.1:8000/media/{{member.image}}" alt="" /></a>
+      {% endfor %}
+    </span>
+  </div>
+  <div class="flex info">
+    <p>{{ event.members.count }} Joined</p>
+
+    <button class="btn-secondary">{{ event.topic.name}}</button>
+  </div>
+</div>
+{% endfor %}

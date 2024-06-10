@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <main class="grid__container">
+      <div class="container flex__grid">
+        <section class="event__chat__container">
+          <div class="hosts">
+            <h3>
+              <a href="{{request.META.HTTP_REFERER}}" class="space arrow"
+                ><span> &LeftArrow;</span>
+                <span class="ft__small">BACK</span></a
+              >
+            </h3>
+
+            <div class="host__content del">
+              <p>Are you sure you want to delete {{ obj }}....</p>
+
+         
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="submit" class="btn" value="Confirm" />
+                </form>
+    
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    {% endblock content %}

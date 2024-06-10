@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% block search %}
+<form action="">
+    <input type="text" name='q' />
+    </form>
+{% endblock search %}
+
+
+<section>
+    <a href="{% url 'home' %}">all <span>{{ topics.count }}</span></a> <br> <br>
+    {% for topic in topics %}
+      <div> <a href="{% url 'home' %}?q={{topic.name}}"> {{ topic.name}} </a> {{topic.event_count}} </div> <br>
+    {% endfor %}
+</section>
+<section>
+    <a href="{% url 'create-event' %}">Create Event</a>
+    <h3>
+
+      {% if event_count > 0 %}
+      {{event_count }} events available
+
+      {% else %}
+      No events available
+      {% endif %}  
+    </h3>
+    {% for event in events %}
+    <div>
+        <p>{{event.user}}</p>
+        <small>{{event.created | timesince }} ago</small>
+
+        <h1> <a href="{{ event.get_absolute_url }}">  {{ event.name}} </a>  </h1>
+        <p>   {{ event.topic.name}} </p>
+        
+        {% if request.user == event.user %}
+        <a href="{{ event.get_edit_url }}">Edit</a>
+        <a href="{{ event.get_delete_url }}">Delete</a>
+        {% endif %}
+    </div>
+
+    <hr>
+    
+
+    {% endfor %}
+</section>
+
+<section>
+
+    <div>
+        <h1>Top hosts</h1>
+        {% for host in top_hosts %}
+            {{ host.username }} {{ host.event_count }}
+        {% endfor %}
+    </div>
+    <hr>
+
+
+    <div>
+        <h1>Recent Activities</h1>
+
+    {% for msg in msgs %}
+        <a href="">{{msg.user}}</a>
+        <small>{{msg.created | timesince }} ago</small>
+
+        <p>replied to "{{msg.event}}"</p>
+        <p>{{msg.body | truncatechars:50}}</p>
+    {% endfor %}
+</div>
+</section>
+
+
+{% endblock content %}
